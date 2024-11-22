@@ -1,5 +1,5 @@
 
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import PropTypes from "prop-types";
 export const ShoppingCartContext = createContext()
 export const ShoppingCartProvider = ({children}) =>{
@@ -25,6 +25,14 @@ export const ShoppingCartProvider = ({children}) =>{
     //Shopping Cart . Order
     const [order, setOrder] = useState([])
 
+    //Get products 
+    const [items, setItems] = useState(null)
+    useEffect (() =>{
+        fetch('https://api.escuelajs.co/api/v1/products') // la onformación viene en tipo promesa
+        .then(response =>response.json()) // uso then para resolver esa promesa
+        .then(data =>setItems(data))
+      },[])
+
     return (
         <ShoppingCartContext.Provider value={{
             count, 
@@ -41,6 +49,9 @@ export const ShoppingCartProvider = ({children}) =>{
             CloseCheckoutSideMenu,
             order,
             setOrder,
+            items, 
+            setItems
+
 
 
         }}>
